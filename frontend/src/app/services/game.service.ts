@@ -36,7 +36,7 @@ export class GameService {
   getAllGames(): Observable<Game[]> {
     return this.httpClient.get<Game[]>(this.endpoint)
       .pipe(
-        tap(users => console.log('Games retrieved!')),
+        tap(games => console.log('Games retrieved!')),
         catchError(this.handleError<Game[]>('Get game', []))
       );
   }
@@ -52,7 +52,7 @@ export class GameService {
   deleteUser(id): Observable<Game[]> {
     return this.httpClient.delete<Game[]>(this.endpoint + '/' + id, this.httpOptions)
       .pipe(
-        tap(_ => console.log(`GAme deleted: ${id}`)),
+        tap(_ => console.log(`Game deleted: ${id}`)),
         catchError(this.handleError<Game[]>('Delete game'))
       );
   }
