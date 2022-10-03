@@ -15,7 +15,7 @@ const httpOptionsUsingUrlEncoded={
 
 export class GameService {
 
-  endpoint = 'http://localhost:8080/game';
+  endpoint = 'http://localhost:8080/games';
 
 
   constructor(private httpClient: HttpClient) { }

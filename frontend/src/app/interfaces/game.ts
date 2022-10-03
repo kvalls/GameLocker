@@ -1,4 +1,4 @@
-export interface Game {
+export class Game {
   id?: number;
   name: string;
   price: number;
