@@ -2,8 +2,6 @@ package com.gamelocker.app.controllers;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +16,7 @@ import com.gamelocker.app.entity.model.Game;
 import com.gamelocker.app.entity.service.IGameService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100")
 public class GameController {
 	
 	@Autowired
@@ -35,12 +33,12 @@ public class GameController {
 	}
 	
 	@PostMapping("/games")
-	public void post(@RequestBody Game game) {
+	public void post(Game game) {
 		gameService.post(game);
 	}
 	
 	@PutMapping("/games/{id}")
-	public void put(@RequestBody Game game, @PathVariable(value = "id") long id) {
+	public void put(Game game, @PathVariable(value = "id") long id) {
 		gameService.put(game, id);
 	}
 	
