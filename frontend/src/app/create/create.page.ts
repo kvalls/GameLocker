@@ -40,7 +40,7 @@ export class CreatePage implements OnInit {
         .subscribe((response) => {
           this.zone.run(() => {
             this.gameForm.reset();
-            this.router.navigate(['/list']);
+            this.router.navigate(['/home']);
           })
         });
     }

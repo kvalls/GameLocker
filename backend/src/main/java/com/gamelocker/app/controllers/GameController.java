@@ -18,7 +18,7 @@ import com.gamelocker.app.entity.model.Game;
 import com.gamelocker.app.entity.service.IGameService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 public class GameController {
 	
 	@Autowired
@@ -35,12 +35,12 @@ public class GameController {
 	}
 	
 	@PostMapping("/games")
-	public void post( Game game) {
+	public void post(@RequestBody Game game) {
 		gameService.post(game);
 	}
 	
 	@PutMapping("/games/{id}")
-	public void put( Game game, @PathVariable(value = "id") long id) {
+	public void put(@RequestBody Game game, @PathVariable(value = "id") long id) {
 		gameService.put(game, id);
 	}
 	

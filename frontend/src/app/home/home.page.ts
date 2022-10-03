@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Game } from '../interfaces/game';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -7,20 +7,33 @@ import { GameService } from '../services/game.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  games: any = [];
+  Games: any = [];
 
-  constructor(private gameService: GameService) {
-    this.getAllGames();
+  constructor( 
+    private gameService: GameService,
+    private router: Router
+  ) { }
+
+  ngOnInit() {  }
+
+  ionViewDidEnter() {
+    this.gameService.getGames().subscribe((response) => {
+      this.Games = response;
+    })
   }
 
-  getAllGames(){
-    this.gameService.getAllGames().subscribe(data => {
-      console.log("data");
-      console.log(data);
-      this.games = data;
-    });
+  removeGame(game, i) {
+    if (window.confirm('Are you sure')) {
+      this.gameService.deleteGame(game.id)
+      .subscribe(() => {
+          this.ionViewDidEnter();
+          console.log('Game deleted!')
+        }
+      )
+    }
   }
 
 }
+

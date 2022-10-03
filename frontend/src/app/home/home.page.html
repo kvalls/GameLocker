@@ -14,13 +14,26 @@
   </ion-header>
 
   <!-- <div id="container"> -->
-   <ion-list>
-    <ion-item *ngFor="let g of games">
-      <h1>{{g.name}} {{g.price}}€</h1>
-      <p> Genre: {{g.genre}} </p>
-      <p> Sales: {{g.sales}} </p>
-      <p> {{g.description}} </p>
-    </ion-item>
-   </ion-list>
+    <ion-list>
+      <ion-item *ngFor="let game of Games">
+        <ion-label>
+          <h2>{{g.name}} {{g.price}}€</h2>
+          <h3> Genre: {{g.genre}} </h3>
+          <h3> Sales: {{g.sales}} </h3>
+          <p> {{g.description}} </p>
+        </ion-label>
+  
+        <div class="item-note" item-end>
+          <button ion-button clear [routerLink]="['/update/', game.id]">
+            <ion-icon name="create" style="zoom:1.5"></ion-icon>
+          </button>
+          <button ion-button clear (click)="removeGame(game)">
+            <ion-icon name="trash" style="zoom:1.5"></ion-icon>
+          </button>
+        </div>
+      </ion-item>
+    </ion-list>
   <!-- </div> -->
+  
+
 </ion-content>

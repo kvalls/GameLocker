@@ -4,6 +4,11 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Game } from '../interfaces/game';
 
+const httpOptionsUsingUrlEncoded={
+  headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded'})
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,14 +17,17 @@ export class GameService {
 
   endpoint = 'http://localhost:8080/game';
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
 
   constructor(private httpClient: HttpClient) { }
 
   createGame(game: Game): Observable<any> {
-    return this.httpClient.post<Game>(this.endpoint, JSON.stringify(game), this.httpOptions)
+    let data= new URLSearchParams();
+    data.append("name",game.name);
+    data.append("price",game.price.toString());
+    data.append("genre",game.genre);
+    data.append("description",game.description);
+    data.append("sales",game.sales.toString());
+    return this.httpClient.post<Game>(this.endpoint, data,httpOptionsUsingUrlEncoded)
       .pipe(
         catchError(this.handleError<Game>('Error occured'))
       );
@@ -28,12 +36,12 @@ export class GameService {
   getGame(id): Observable<Game[]> {
     return this.httpClient.get<Game[]>(this.endpoint + '/' + id)
       .pipe(
-        tap(_ => console.log(`User fetched: ${id}`)),
-        catchError(this.handleError<Game[]>(`Get user id=${id}`))
+        tap(_ => console.log(`Game fetched: ${id}`)),
+        catchError(this.handleError<Game[]>(`Get Game id=${id}`))
       );
   }
 
-  getAllGames(): Observable<Game[]> {
+  getGames(): Observable<Game[]> {
     return this.httpClient.get<Game[]>(this.endpoint)
       .pipe(
         tap(games => console.log('Games retrieved!')),
@@ -41,16 +49,22 @@ export class GameService {
       );
   }
 
-  updateUser(id, user: Game): Observable<any> {
-    return this.httpClient.put(this.endpoint + '/' + id, JSON.stringify(user), this.httpOptions)
+  updateGame(id, game: Game): Observable<any> {
+    let data= new URLSearchParams();
+    data.append("name",game.name);
+    data.append("price",game.price.toString());
+    data.append("genre",game.genre);
+    data.append("description",game.description);
+    data.append("sales",game.sales.toString());
+    return this.httpClient.put(this.endpoint + '/' + id, data,httpOptionsUsingUrlEncoded)
       .pipe(
         tap(_ => console.log(`Game updated: ${id}`)),
         catchError(this.handleError<Game[]>('Update game'))
       );
   }
 
-  deleteUser(id): Observable<Game[]> {
-    return this.httpClient.delete<Game[]>(this.endpoint + '/' + id, this.httpOptions)
+  deleteGame(id): Observable<Game[]> {
+    return this.httpClient.delete<Game[]>(this.endpoint + '/' + id)
       .pipe(
         tap(_ => console.log(`Game deleted: ${id}`)),
         catchError(this.handleError<Game[]>('Delete game'))
